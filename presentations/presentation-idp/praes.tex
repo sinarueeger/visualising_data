@@ -1,0 +1,868 @@
+
+\documentclass[handout]{beamer} % [notesonly] [notes]
+%\documentclass[slidestop,compress,mathserif]{beamer}
+%%\usepackage[bars]{beamerthemetree} % Beamer theme v 2.2
+\usetheme{Antibes} % Beamer theme v 3.0
+%\usecolortheme{lily} % Beamer color theme %lily, beaver
+%\usecolortheme{default}% schwarz, dunkelblau, blau
+%\usecolortheme{sidebartab} % schwarz, dunkelblau, blau
+%\usecolortheme{albatross} %nix
+%\usecolortheme{beetle} 
+%\usecolortheme{crane}
+%\usecolortheme[named=SeaGreen]{dove} % keine farbe
+%\usecolortheme{fly} % grauer hintergrund
+%\usecolortheme{seagull} %grau
+\usecolortheme{lily}
+%\usecolortheme[named=SeaGreen]{orchid} % gut
+%\usecolortheme{structure} % schwarz
+
+\usepackage[T1]{fontec}		%deutsche silbentrennung
+\usepackage[applemac]{inputenc}	%um Umlaute korrekt schreiben zu knnen
+
+\usepackage[german]{babel}		%deutsche silbentrennung
+\usepackage[ansinew]{inputenc}	%um Umlaute korrekt schreiben zu knnen
+\usepackage{amssymb,amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{here}
+\usepackage{color}
+\usepackage{pdfpages}			%kann mit pdfpage{xxx.pdf} pdfs einbinden
+
+\usepackage{float}                 %damit Bild an dem Ort, wo es sein soll
+\restylefloat{figure}              %damit Bild an dem Ort, wo es sein soll
+
+
+\usepackage{tikz}
+\usetikzlibrary{mindmap,trees}
+
+
+%% handout
+%% -----
+%\usepackage{pgfpages} 
+%\pgfpagesuselayout{2 on 1}[a4paper,border shrink=5mm] 
+
+
+%% define colors
+%% --------
+%\definecolor{my}{rgb}{0.20,0.43,0.09}
+
+%\usetheme{} 
+%\setbeamercovered{transparent}
+%\setbeamercolor{palette primary}{fg=black,bg=my} % !<#> is transparency
+%\setbeamercolor{palette secondary}{fg=black,bg=my!60  }
+%\setbeamercolor{palette tertiary}{fg=black,bg=my!60!gray }
+%\setbeamercolor{palette quaternary}{fg=black,bg=my!60!black}
+
+
+
+\setbeamertemplate{footline}[frame number]
+
+\title{Visualizing Data}
+\author{Sina RŸeger}
+\institute{Master of Science in Engineering (MSE)}
+%\institute{Zürcher Hochschule für Angewandte Wissenschaften \\ 
+%Institut fŸr Datenanalyse und Prozessdesign}
+
+% .........................................................................
+
+\begin{document}
+
+% .........................................................................
+
+\frame{
+  \titlepage
+} 
+
+
+
+\frame{
+  \frametitle{Inhalt}
+  \tableofcontents
+} 
+\note[options]{weglassen?!}
+
+%% ===========================================================
+%% M E T H O T I K S E M I N A R 
+\section{Methodikseminar}
+
+\frame{
+  \frametitle{}
+\begin{center}
+	{\LARGE Methodikseminar}
+\end{center}
+  }
+%\subsection{Entstehung Vortrag}
+%% --------
+ \frame{
+  \frametitle{Methodikseminar}
+ 	\begin{block}{Weshalb \emph{Visualizing Data} ?}
+      	\begin{itemize}
+		\item Statistik $\to$ Macht
+		\item Visualisierung $\to$ Macht
+		\item Vermeiden: unabsichtliches Manipulieren durch Unwissen
+%		\item Eigen-Interesse zu lernen Ÿber
+%			\begin{itemize}
+%				\item Design
+%				\item Wahrnehmung 
+%			\end{itemize}
+%			
+ 	\end{itemize}
+  	\end{block}
+	
+	\begin{block}{Entstehung Vortrag}
+      	\begin{itemize}
+		\item Literatur-Recherche (BŸcher, Journals)
+ 		\item Eigenes VerstŠndnis / Theorie
+		\item GesprŠche mit Statisikern und Grafikern
+ 	\end{itemize}
+	\end{block}
+}
+\note[options]{Statistik verleiht einem eine gewisse Macht und Visualisierungen auch. Mit beiden Methoden kann manipuliert werden. Genauso verherend kann es sein, wenn die Methoden irrŸmlicherweise falsch verwendet werden. D.h., wenn statt dem Median der Mean angegeben wird, oder die Punkte farbig markiert werden, obwohl das fŸr die Wissensvermittlung gar nicht nštig wŠre. Obwohl man eigentlich die Wahrheit zeigen wollte, ist dies misslungen (mšglich ist auch ein verschweigen von Wissen. Wenn z.B. ein Histogram gezeichnet wird, aber ein Boxplot viel mehr information beinhaltet hŠtte oder achsentransformationen). Deshalb mšchte ich das Thema \emph{Visualizing Data} behandeln, weil ich selbst und vermutlich auch andere ein Defizit in diesem Fachgebiet haben. Es gibt kein Modul zu diesem Thema. }
+
+\note[options]{Rohmaterial: Daten / Zahlen. Wir wissen, Datensatz ist zu gross fŸrs Auge. Also Visualisierung. Die Aussage der Visualisierung muss mit der Aussage des Datensatzes Ÿbereinstimmen. Die Statistik (aggregierung des Datensatzes) beinhaltet viel Macht und die Visualisierung auch. }
+
+
+% \frame{
+%  \frametitle{Gelerntes}
+%      	\begin{itemize}
+%		\item Fachgebiet \emph{Visualizing Data}
+% 		\item Latex Beamer
+%		\item HTML
+% 	\end{itemize}
+}
+%% ===========================================================
+%% E I N S T I E G
+
+\section{Einstieg}
+
+\frame{
+  \frametitle{}
+\begin{center}
+	{\LARGE Einstieg}
+\end{center}
+  }
+
+  
+%\subsection{Aspekte}
+%% --------
+ \frame{
+  \frametitle{Beispiel 1: TemperaturwŠhler S-Bahn}
+     \begin{figure}[H]
+   	\centering
+    	\includegraphics[width=4cm]{images/IMG_0066b.jpg}
+     \end{figure}
+  }
+  
+ \frame{
+  \frametitle{Beispiel 2: Excel vs. ggplot2}
+\begin{figure}[H] 
+    \centering 
+        \subfloat{\includegraphics[width=5cm]{images/beispiel2_excel.png}} 
+        \subfloat{\includegraphics[width=5cm]{images/beispiel2_R.pdf}}
+   %     \caption{Kovarianz der Produkte des Datensatz A fŸr die Wertung des Geschmacks (oben) und Kovarianz der Produkte des Datensatz B fŸr die Wertung der Beschaffenheit (unten)} 
+    %\label{grafik:deskriptiv_cov} 
+\end{figure}
+
+  }
+  
+ \frame{
+  \frametitle{Beispiel 3: †berfliegen eines Papers (als Konsument)}
+      Bewertung der ganzen Arbeit anhand der Visualisierungen. Abbildungen kšnnen: 
+      	\begin{itemize}
+	\item kompliziert
+	\item unverstŠndlich
+	\item \emph{trocken}
+	\item einfach
+	\item anspruchsvoll
+	\item mit dem falschen Tool gemacht worden
+     	\end{itemize} 
+	sein.
+  }
+  \note[options]{Ein Einstiegsbeispiel um zu verdeutlichen, wie wichtig VIsualisierungen sind. 
+  Oft sind wir Erzeuger von Grafiken und beliefern damit Konsumenten. Wir kšnnen aber auch Konsumenten sein. Wenn wir Paper Ÿberfliegen zum Beispiel. Konsequenz: Paper wird Ÿber die Visualisierungen beurteilt. €hnlich wie beim Anschauen von Menschen.}
+
+  
+   \frame{
+  \frametitle{Inhalt des Vortrags}
+     Dieser Vortrag soll
+      	\begin{itemize}
+	\item Komponenten / Aspekte einer Visualisierung aufzeigen
+	%\item Beispiele der Aspekte zeigen
+	\item Das Fachgebiet \emph{Visualizing Data} umreissen
+	\item Mšgliche Fehlerquellen erlŠutern
+	\item Grundregeln aufstellen
+	\item Tools beschreiben
+	\item Tipps geben
+	\item Webpage mit Informationen dazu bereitstellen
+     	\end{itemize} 
+  }
+
+%% ===========================================================
+%% A S P E K T E  einer Visualisierung
+\section{Aspekte einer Visualisierung}
+
+\frame{
+  \frametitle{}
+\begin{center}
+	{\LARGE Aspekte einer Visualisierung}
+\end{center}
+  }
+
+%% -------- 3 schwarze Menschen
+ \frame{
+  \frametitle{3 Aspekte}
+     \begin{figure}[H]
+   	\centering
+     	\includegraphics[width=8cm]{images/Zeichnung2.pdf}
+     \end{figure}
+     
+     \begin{center}
+     {\footnotesize Frei nach Isotype, Otto Neurath, 1882 -- 1945}
+     \end{center}
+
+}
+  \note[options]{Die drei Menschen reprŠsentieren die drei Aspekte einer Visualisierung.
+  		\item GrafikerIn: weiss wie man gestaltet / Unterhaltung
+ 		\item StatistikerIn: aggregiert Zahlen, bestimmt die Art der Grafik (Histogramm, etc.)
+		\item PsychologIn: weiss, wer was versteht, Adressierung, Arbeitsgrafik oder PrŠsentationsgrafik
+		
+Die drei Aspekte hŠngen alle zusammen. Design hat mit wahrnehmung zu tun, statisitk mit design und wahrnehmung. 
+
+   Eine gute Visualisierung von Zahlen ist gestaltet, richtig addressiert und beinhaltet die richtige Statistik. Wir alle sind vermutlich eher Statistiker, fŸr die Gestaltung mŸssten wir eine entsprechende Ausbidlung absolcvieren. Manchmal gehen Aspekte verloren oder der Fokus darauf. Um zu verdeutlichen, was mit diesen drei aspekten gemeint, ist, habe ich je zwei Beispiele gemacht.}
+
+%% -------- Beispiel GrafikerIn
+ \frame{
+  \frametitle{Beispiel GrafikerIn}
+%\begin{figure}[H] 
+%    \centering 
+%        \subfloat{\includegraphics[width=9cm]{Images/deskriptiv_datA_Taste_cov.pdf}} \\
+%        \subfloat{\includegraphics[width=9cm]{Images/deskriptiv_datB_Texture_cov.pdf}}
+%        \caption{Kovarianz der Produkte des Datensatz A fŸr die Wertung des Geschmacks (oben) und Kovarianz der Produkte des Datensatz B fŸr die Wertung der Beschaffenheit (unten)} 
+%    \label{grafik:deskriptiv_cov} 
+%\end{figure}
+}
+  \note[options]{OverKill in Design: Beispiel aus Data-Flow. Ausgeglichene Grafik: verbesserte Grafik}
+
+%% -------- Beispiel StatisikerIn
+ \frame{
+  \frametitle{Beispiel StatisikerIn}
+%\begin{figure}[H] 
+%    \centering 
+%        \subfloat{\includegraphics[width=9cm]{Images/deskriptiv_datA_Taste_cov.pdf}} \\
+%        \subfloat{\includegraphics[width=9cm]{Images/deskriptiv_datB_Texture_cov.pdf}}
+%        \caption{Kovarianz der Produkte des Datensatz A fŸr die Wertung des Geschmacks (oben) und Kovarianz der Produkte des Datensatz B fŸr die Wertung der Beschaffenheit (unten)} 
+%    \label{grafik:deskriptiv_cov} 
+%\end{figure}
+}
+  \note[options]{Falsche Statistik: Boxplot fŸr Bipolare Daten. Bessere Grafik: Beanplot}
+
+%% -------- Beispiel PsychologIn
+ \frame{
+  \frametitle{Beispiel PsychologIn}
+%\begin{figure}[H] 
+%    \centering 
+%        \subfloat{\includegraphics[width=9cm]{Images/deskriptiv_datA_Taste_cov.pdf}} \\
+%        \subfloat{\includegraphics[width=9cm]{Images/deskriptiv_datB_Texture_cov.pdf}}
+%        \caption{Kovarianz der Produkte des Datensatz A fŸr die Wertung des Geschmacks (oben) und Kovarianz der Produkte des Datensatz B fŸr die Wertung der Beschaffenheit (unten)} 
+%    \label{grafik:deskriptiv_cov} 
+%\end{figure}
+}
+
+  \note[options]{Bessere Grafik: Histogramm. Falsche Addressierung: Neurath otto.}
+
+%% --------
+ \frame{
+  \frametitle{Theorie der 3 Aspekte}
+     \begin{figure}[H]
+   	\centering
+     	\includegraphics[width=10cm]{images/mindmap2_page2.pdf}
+     \end{figure}
+
+}
+
+ \frame{
+ % \frametitle{Theorie der 3 Aspekte}
+     \begin{figure}[H]
+   	\centering
+     	\includegraphics[width=7cm]{images/mindmap2_page3.pdf}
+     \end{figure}
+
+}
+
+ \frame{
+%  \frametitle{Theorie der 3 Aspekte}
+     \begin{figure}[H]
+   	\centering
+     	\includegraphics[width=7cm]{images/mindmap2_page4.pdf}
+     \end{figure}
+
+}
+%% --------
+
+% \frame{
+%  \frametitle{Fehlerquellen}
+% \emph{Vektor1, Bild, Vektor2, Vektor1=Vektor2}\\
+% \emph{Vektor1, Bild, Vektor2, Vektor1$\neq$Vektor2}
+% %	\begin{block}{3 Personen}
+%      	\begin{itemize}
+%		\item Falsche Adressierung (zu anspruchsvoll)
+%		\item Falsche Gestaltung (Farbe benutzt obwohl nicht nštig)
+%		\item Falsche Statistik (Lineare Regression statt Robuste Regression)
+%	%	\item Falsche Grafikart (
+% 	\end{itemize}
+%%	\end{block}
+}
+
+%% ===========================================================
+%% W A H R N E H M U N G 
+\section{Wahrnehmung}
+%% --------
+ \frame{
+  \frametitle{Wahrnehmung nach Cleveland und McGill}
+ \emph{xyz}
+}
+
+%% ===========================================================
+%% G E S C H I C H T E
+\section{Geschichte}
+%% --------
+ \frame{
+  \frametitle{Geschichte nach Friendly und Tufte}
+ \emph{xyz}
+}
+
+%% ===========================================================
+%% G R U N D R E G E L Nuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu
+\section{Grundregeln nach Tufte}
+%% --------
+ \frame{
+  \frametitle{Grundregeln nach Tufte}
+ \emph{xyz}
+}
+
+%% ===========================================================
+%% F A R B E N
+\section{Farben}
+%% --------
+ \frame{
+  \frametitle{Farben nach Murrell, Zeileis, Hornik}
+ \emph{xyz}
+}
+
+ \frame{
+  \frametitle{Webpages}
+ \emph{colorschemedesigner, colorbrewer2.org}
+}
+
+%% ===========================================================
+%% packages in R
+\section{Visualisierungen in R}
+%% --------
+
+ \frame{
+  \frametitle{Geschichte nach Wickham}
+ \emph{xyz}
+}
+
+%% --------
+\subsection{graphics}
+ \frame{
+  \frametitle{Murrell und Ihaka}
+ \emph{xyz}
+}
+
+%% --------
+\subsection{lattice}
+ \frame{
+  \frametitle{Prinzip von Lattice}
+ \emph{xyz}
+}
+
+%% --------
+\subsection{ggplot2}
+ \frame{
+  \frametitle{ Wickham, link zu lattice}
+ \emph{xyz}
+}
+
+%% --------
+\subsection{rggobi}
+ \frame{
+  \frametitle{Vorteile von ggobi}
+ \emph{xyz}
+}
+
+%% --------
+\subsection{rgl, latex vs. R}
+ \frame{
+  \frametitle{rgl, latex vs. R}
+ \emph{xyz}
+}
+
+
+
+%% ===========================================================
+%% Verweise auf webpage rusa
+\section{Verweis auf Webpage rusa}
+%% --------
+
+ \frame{
+  \frametitle{Verweise auf Webpage rusa}
+ \emph{Weblinks, Literatur/Artikel, packages in R, zusŠtzliche Tools}
+}
+
+
+
+
+
+
+
+
+
+
+%
+%% .........................................................................
+%
+%\frame{
+%  \frametitle{Engpässe am Hauptbahnhof Basel}
+%    \begin{block}{Warteschlangen bei Rolltreppen und Treppen}
+%    Rolltreppen und Treppen sind kritische Stellen. Durch die Trichterform sinkt die Geschwindigkeit der Personen - die Folge davon sind Warteschlangen.
+%  	\end{block}
+%  	
+%  	\begin{block}{Lösung}
+%    Die Richtung der Rolltreppen \textbf{optimal} umschalten.
+%  	\end{block}
+%}
+%
+%% .........................................................................
+%
+%\subsection{Lösungsansatz}
+%\frame{
+%  \frametitle{Engpässe am Hauptbahnhof Basel}
+%    \begin{block}{Zwei Lösungen für einen optimalen Richtungswechsel der Rolltreppen}
+%     \begin{itemize}
+%  		\item 1 Person steht den ganzen Tag in Sichtweite der Rolltreppen und beobachtet die Situation. Bei Bedarf wird die Rolltreppe umgeschaltet.
+%  		% % wo sind hier die Probleme? (1. Person erinnert sich nicht an vortrag, 2. Personen und Geld Ressourcen, 3. Langweilig)
+%  		\item Adaptive Steuerung der Rolltreppen
+%  		% % Zauberei?
+%\end{itemize}
+%  	\end{block}
+%}
+%
+%
+%\frame{
+%  \frametitle{Engpässe am Hauptbahnhof Basel}
+%    \begin{block}{Welches Wissen wird für eine adaptive Steuerung der Rolltreppen benötigt?}
+%     \begin{enumerate}
+%  		\item Überblick über die Situation am Bahnhof $\rightarrow$ \emph{Übersichtspläne, vor Ort anschauen}
+%  		\item Personenströme beziffern $\rightarrow$ \emph{Kameras} generieren Daten
+%		\item Verhalten der Pendler kennen
+% 	 \end{enumerate}
+%  	\end{block}
+%}
+%
+%%% .........................................................................
+%%
+%%\frame{
+%%  \frametitle{Engpässe am Hauptbahnhof Basel}
+%%    \begin{block}{Warteschlangen bei Rolltreppen}
+%%      \begin{itemize}
+%%  		\item Unternehmen ASE untersucht dieses Problem
+%%  		\item Lösung: adaptive Steuerung der Rolltreppen
+%%  		\item Vor-Projekt $\rightarrow$ wenig Geld. Nachfolge-Projekt soll umfangreicher sein
+%%	  \end{itemize}
+%%  	\end{block}
+%%}
+%%
+%
+%
+%
+%% .........................................................................
+%
+%\subsection{Übersicht HB Basel}
+%\frame{
+%  \frametitle{Engpässe am Hauptbahnhof Basel}
+%\begin{block}{Übersicht HB Basel}
+%    \begin{figure}[ht]
+%      \centering
+%      \subfloat{\includegraphics[width=5cm]{Images/hb_basel.pdf}}
+%      \subfloat{\includegraphics[width=5cm]{Images/uebersicht.pdf}}
+%     % \includegraphics[width=8cm]{plot_4}
+%      \caption{Uebersicht HB Basel}
+%    \end{figure}
+%\end{block}
+%}
+%
+%% .........................................................................
+%
+%\subsection{Übersicht Bahnhofshalle HB Basel}
+%\frame{
+%  \frametitle{Engpässe am Hauptbahnhof Basel}
+%\begin{block}{Übersicht Bahnhofshalle HB Basel}
+%    \begin{figure}[ht]
+%      \centering
+%      \subfloat{\includegraphics[width=5cm]{Images/kameras.pdf}}
+%      \subfloat{\includegraphics[width=5cm]{Images/uebersicht_detail.pdf}}
+%     % \includegraphics[width=8cm]{plot_4}
+%      \caption{Uebersicht Bahnhofshalle HB Basel}
+%    \end{figure}
+%\end{block}
+%}
+%
+%
+%% .........................................................................
+%
+%\subsection{Datenerhebung am HB Basel}
+%\frame{
+%  \frametitle{Engpässe am Hauptbahnhof Basel}
+%\begin{block}{Datenerhebung am HB Basel}
+%   \begin{enumerate}
+%  \item Technologie der Kameras \\
+%$\rightarrow$ \emph{zuverlässiges Zählen der Personen}
+%  \item Installation der Kameras\\ $\rightarrow$ \emph{Datenschutz}
+%  \item Möglichst wenig Kameras installieren\\ $\rightarrow$ \emph{Budget}
+%  \end{enumerate}
+%\end{block}
+%}
+%
+%% .........................................................................
+%% .........................................................................
+%% .........................................................................
+%
+%\section{Datenanalyse}
+%\frame{
+%  \frametitle{Ablauf empirischer Untersuchungen}
+%  \begin{enumerate}
+%  \item Formulierung und Präzisierung des Forschungsproblems
+%  \item Planung und Vorbereitung der Erhebung
+%  \item Datenerhebung
+%  \item \textbf{Datenauswertung}
+%  \item Berichterstattung
+%  \end{enumerate}
+%}
+%
+%% .........................................................................
+%\subsection{Wann lohnt sich ein Umschalten?}
+%\frame{
+%  \frametitle{Datenauswertung}
+%	\begin{block}{Wann lohnt sich ein Umschalten?}
+% 		Wenn in eine Richtung der Rolltreppe eine Warteschlange entsteht und gleichzeitig die andere Richtung innerhalb eines Zeitintervall von mindestens 45 Minuten nur schwach belastet ist.
+%	\end{block}
+%}
+%
+%%\frame{
+%%  \frametitle{Datenstruktur}
+%%\begin{verbatim}
+%%          datetimemin       date  timemin ppm.in.25 ppm.in.26 ppm.out.34 ppm.out.35
+%%1 2009-09-18 00:03:00 2009-09-18 00:03:00         7         2          2         10
+%%2 2009-09-18 00:05:00 2009-09-18 00:05:00         3         2          4          5
+%%3 2009-09-18 00:32:00 2009-09-18 00:32:00         2         3          1          1
+%%4 2009-09-18 05:15:00 2009-09-18 05:15:00         2         1          1          3
+%%5 2009-09-18 05:23:00 2009-09-18 05:23:00         3         1          7         24
+%%6 2009-09-18 05:27:00 2009-09-18 05:27:00         6         5          8         10
+%%\end{verbatim}
+%%}
+%
+%% .........................................................................
+%\subsection{Idee}
+%\frame{
+%  \frametitle{Datenauswertung}
+%	\begin{block}{Idee}
+%		Anhand von erfassten Daten werden die folgenden zwei Punkte überprüft.
+%		  \begin{enumerate}
+% 		\item Gibt es Zeitintervalle, in denen die eine Richtung der Rolltreppe stark belastet ist und die andere Richtung der Rolltreppe schwach?
+% 		\item Was geschieht, wenn in einem bestimmten Zeitintervall eine Rolltreppen in die andere Richtung umgeschaltet wird?
+% 		  \end{enumerate}
+%	\end{block}
+%}
+%
+%% .........................................................................
+%\subsection{Umsetzung der Idee}
+%\frame{
+%  \frametitle{Datenauswertung}
+%	\begin{block}{Umsetzung der Idee}
+%		  \begin{enumerate}
+% 		\item Zeitintervalle finden: \emph{Grafische Analyse}
+% 		\item Folge der Rolltreppenumschaltung: \emph{Simulation der Warteschlangen anhand eines Modells}
+% 		  \end{enumerate}
+%	\end{block}
+%}
+%
+%
+%% .........................................................................
+%\subsubsection{Zeitintervalle finden}
+%\frame{
+%  \frametitle{Datenauswertung}
+%\begin{block}{Zeitintervalle finden}
+%    \begin{figure}[ht]
+%      \centering
+%      %\subfloat{\includegraphics[width=5.5cm]{Images/hb_basel.pdf}}
+%      %\subfloat{\includegraphics[width=5.5cm]{Images/uebersicht.pdf}}
+%      \includegraphics[width=5cm]{Images/time_raw.pdf}
+%      \caption{Zeitlicher Verlauf der Personenströme pro Minute}
+%    \end{figure}
+%\end{block}
+%}
+%
+%\frame{
+%  \frametitle{Datenauswertung}
+%\begin{block}{Detailansicht Bahnhofshalle HB Basel}
+%    \begin{figure}[ht]
+%      \centering
+%	  	\includegraphics[width=6cm]{Images/uebersicht_detail.pdf}
+%     % \includegraphics[width=8cm]{plot_4}
+%      \caption{Detailansicht Bahnhofshalle HB Basel}
+%    \end{figure}
+%\end{block}
+%}
+%
+%%\frame{
+%%  \frametitle{Datenauswertung}. 
+%%\begin{block}{Zeitintervalle finden}
+%%    \begin{figure}[h]
+%%      \centering
+%%      %\subfloat{\includegraphics[width=5.5cm]{Images/hb_basel.pdf}}
+%%      %\subfloat{\includegraphics[width=5.5cm]{Images/uebersicht.pdf}}
+%%      \includegraphics[width=6cm]{Images/in_out_raw.pdf}
+%%      \caption{Beide Richtungen gegeneinander aufgetragen}
+%%    \end{figure}
+%%\end{block}
+%%}
+%%
+%\frame{
+%  \frametitle{Datenauswertung}
+%\begin{block}{Zeitintervalle finden}
+%    \begin{figure}[ht]
+%      \centering
+%      %\subfloat{\includegraphics[width=5.5cm]{Images/hb_basel.pdf}}
+%      %\subfloat{\includegraphics[width=5.5cm]{Images/uebersicht.pdf}}
+%      \includegraphics[width=5cm]{Images/in_out_gropus.pdf}
+%      \caption{Beide Richtungen gegeneinander aufgetragen}
+%    \end{figure}
+%\end{block}
+%}
+%
+%\frame{
+%  \frametitle{Datenauswertung}
+%\begin{block}{Zeitintervalle finden}
+%    \begin{figure}[ht]
+%      \centering
+%      %\subfloat{\includegraphics[width=5.5cm]{Images/hb_basel.pdf}}
+%      %\subfloat{\includegraphics[width=5.5cm]{Images/uebersicht.pdf}}
+%      \includegraphics[width=5cm]{Images/time_groups.pdf}
+%      \caption{Zeitlicher Verlauf der Anzahl Personen pro Minute mit den Gruppen}
+%    \end{figure}
+%\end{block}
+%}
+%
+%
+%% .........................................................................
+%\subsubsection{Simulation Warteschlangen}
+%\frame{
+%  \frametitle{Datenauswertung}
+%\begin{block}{Simulation Warteschlangen}
+%	Warteschlangen $L_t$ können modelliert werden.\\
+%	
+%	$L_t=L_{t-1}+Q_t-K$\\
+%	
+%	Dabei wird der Einfluss der Treppe jedoch nicht berücksichtigt.
+%\end{block}
+%}
+%
+%\frame{
+%  \frametitle{Datenauswertung}
+%\begin{block}{Warteschlangen bei individueller Umschaltung}
+%	Die Umschaltezeit wird zwischen 16 und 19 Uhr variiert. Die Intervalle sind mindestens 45 Minuten lang.
+%    \begin{figure}[ht]
+%      \centering
+%      %\subfloat{\includegraphics[width=5.5cm]{Images/hb_basel.pdf}}
+%      %\subfloat{\includegraphics[width=5.5cm]{Images/uebersicht.pdf}}
+%      \includegraphics[width=5cm]{Images/simu_L.pdf}% .........................................................................
+%      \caption{Warteschlangen bei individuellen Umschaltungen}
+%    \end{figure}
+%\end{block}
+%}
+%
+%
+%
+%% .........................................................................
+%\subsection{Schlussfolgerung}
+%\frame{
+%  \frametitle{Datenauswertung}
+%\begin{block}{Schlussfolgerung}
+%	Beim Donnerstag 12.11.2009 lohnt sich ein Umschalten zwischen 17 bis maximal 18.15 Uhr. Damit wird ein Personenstau kurz vor 18 Uhr umgangen. Um 18.01 Uhr fährt ein Zug nach Bern, um 18.07 Uhr ein Zug nach Zürich.
+%\end{block}
+%}
+%
+%\frame{
+%  \frametitle{Fragen}
+%}
+%%
+%
+%% .........................................................................
+%\frame{
+%  \frametitle{Arbeiten am Computer}
+%  \begin{block}{Statistik im Internet}
+%  	\begin{itemize}
+%  		\item http://www.gapminder.org/
+%  		\item http://www.worldmapper.org/
+%  		\item http://music-map.de/
+%	\end{itemize}
+%  \end{block}
+%}
+%
+%%
+%%
+%%
+%%\frame{
+%%}  \frametitle{Ablauf empirischer Untersuchungen}
+%%  \begin{enumerate}
+%%  \item Formulierung und Präzisierung des Forschungsproblems
+%%  \item Planung und Vorbereitung der Erhebung
+%%  \item Datenerhebung
+%%  \item \textbf{Datenauswertung}
+%%  \item \textbf{Berichterstattung}
+%%  \end{enumerate}
+%%
+%%}
+%%
+%%
+%%
+%%% .........................................................................
+%%
+%%
+%%
+%%% .........................................................................
+%%
+%%\subsection{Planung}
+%%\frame{
+%%  \frametitle{Beispiel}
+%%  \begin{block}{Planung}
+%%   \begin{description}
+%%   \item[Messung] Messung der Körpergrösse und der
+%%     Spannweite der Schreibhand.
+%%   \item[Stichprobe] zufällige Ziehung von Jugendlichen im Alter
+%%     zwischen 15 und 25 Jahren
+%%   \end{description}
+%%  \end{block}
+%%}
+%%
+%%% .........................................................................
+%%
+%%\subsection{Datenerhebung}
+%%\frame{
+%%  \frametitle{Beispiel}
+%%  \begin{block}{Datenerhebung}
+%%    \begin{enumerate}
+%%      \item Messen der Grössen
+%%      \item Dateneingabe
+%%    \end{enumerate}
+%%  \end{block}
+%%}
+%%
+%%% .........................................................................
+%%
+%%\subsection{statistische Datenauswertung}
+%%\frame{
+%%  \frametitle{Beispiel}
+%%  \begin{block}{statistische Datenauswertung - grafische Darstellung}
+%%    \begin{figure}[ht]
+%%      \centering
+%%      \includegraphics[width=8cm]{plot_4}
+%%      \caption{Körpergrösse, aufgezeichnet gegen die Spannweite der Schreibhand}
+%%    \end{figure}
+%%  \end{block}
+%%}
+%%
+%%% .........................................................................
+%%
+%%\frame{
+%%  \frametitle{Beispiel}
+%%  \begin{block}{statistische Datenauswertung - grafische Darstellung}
+%%    \begin{figure}[ht]
+%%      \centering
+%%      \includegraphics[width=8cm]{plot_1}
+%%      \caption{Körpergrösse, aufgezeichnet gegen die Spannweite der
+%%        Schreibhand, farbige Punkte nach Geschlecht}
+%%    \end{figure}
+%%  \end{block}
+%%}
+%%
+%%% % .........................................................................
+%%
+%%\frame{
+%%  \frametitle{Beispiel}
+%%  \begin{block}{Datenauswertung - Interpretation}
+%%    \begin{itemize}
+%%      \item sichtbarer (linearer) Zusammenhang zwischen der Spannweite der
+%%        Schreibhand und der Körpergrösse
+%%      \item Unterschiede zwischen den Geschlechtern
+%%    \end{itemize}
+%%    $\rightarrow$ Schätzung der am besten passenden Gerade durch die
+%%    streuenden Datenpunkte mithilfe Statistischer Methoden
+%%  \end{block}
+%%}
+%%
+%%% .........................................................................
+%%
+%%\frame{
+%%  \frametitle{Beispiel}
+%%  \begin{block}{Datenauswertung - Schätzung der Regressionsgeraden}
+%%    \begin{figure}[ht]
+%%      \centering
+%%      \includegraphics[width=10cm]{plot_3}
+%%      \caption{Körpergrösse, aufgezeichnet gegen die Spannweite der 
+%%        Schreibhand mit eingezeichneter Regressionsgerade nach Geschlecht}
+%%    \end{figure}
+%%  \end{block}
+%%}
+%%
+%%% .........................................................................
+%%
+%%\frame{
+%%  \frametitle{Beispiel}
+%%  \begin{block}{Datenauswertung - Schätzung der Regressionsgeraden}
+%%    \begin{figure}[ht]
+%%      \centering
+%%      \includegraphics[width=10cm]{plot_2}
+%%      \caption{Körpergrösse, aufgezeichnet gegen die Spannweite der 
+%%        Schreibhand mit eingezeichneter Regressionsgerade nach Geschlecht}
+%%    \end{figure}
+%%  \end{block}
+%%}
+%%
+%%% .........................................................................
+%%
+%%\frame{
+%%  \frametitle{Beispiel}
+%%  \begin{block}{Datenauswertung - Folgerungen}
+%%    \begin{itemize}
+%%    \item statistisch nachgewiesener Zusammenhang zwischen den
+%%      Grössen Körpergrösse und Spannweite der Schreibhand: die Grössen
+%%      hängen positiv zusammen (je grösser desto grösser)
+%%    \item signifikante Unterschiede zwischen den Geschlechtern: Frauen
+%%      haben bei gleicher Körpergrösse eine kleinere Spannweite der Schreibhand
+%%    \end{itemize}
+%%  \end{block}
+%%}
+%%
+%%% .........................................................................
+%%
+%%\subsection{Berichterstattung}
+%%\frame{
+%%  \frametitle{Beispiel}
+%%  \begin{block}{Berichterstattung}
+%%    \begin{itemize}
+%%    \item ...
+%%    \end{itemize}
+%%  \end{block}
+%%}
+%%
+%%% .........................................................................
+%%
+%%\section{Fragen}
+%%\frame{
+%%  \frametitle{Fragen}
+%%}
+
+\end{document}
